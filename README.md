@@ -44,3 +44,6 @@ Collected Every 60 seconds
 - size
 
 ## Parsing Output
+The python script `parse_stats.py` get the latest files from `/tmp/run` and parses them.
+Both the Host Info and Stats files are reformed to JSON and Comma Separated Vales (CSV)
+The new files are written to the specified director and contain a unique id to link the files.
