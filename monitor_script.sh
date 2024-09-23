@@ -13,14 +13,14 @@ echo ">> ${TITLE}" > $HOST_INFO
 echo "MISC:" >> $HOST_INFO
 [ -f /var/local/hwinfo.txt ] && cat /var/local/hwinfo.txt >> $HOST_INFO
 echo "MISC:"  >> $HOST_INFO
-{ echo -n "Date: "; date -u +"%Y-%m-%dT%H:%M:%SZ" } >> $HOST_INFO
-{ echo -n "Total Ram: "; free -g | grep Mem: | xargs | cut -d" " -f2 } >> $HOST_INFO
-{ echo -n "Total Swap: "; swapon --show=Size --noheadings } >> $HOST_INFO
-{ echo -n "Number of 1Gb Pages: "; grep HugePages_1048576kB /proc/meminfo } >> $HOST_INFO
-{ echo -n "OS Info: "; uname -a } >> $HOST_INFO
-{ echo -n "Processor Model: "; cat /proc/cpuinfo  | grep 'name'| uniq } >> $HOST_INFO
-{ echo -n "Num Processor: "; cat /proc/cpuinfo  | grep process| wc -l } >> $HOST_INFO
-{ echo -n "Nodeos Version: "; nodeos --full-version } >> $HOST_INFO
+echo -n "Date: "; date -u +"%Y-%m-%dT%H:%M:%SZ" >> $HOST_INFO
+echo -n "Total Ram: "; free -g | grep Mem: | xargs | cut -d" " -f2 >> $HOST_INFO
+echo -n "Total Swap: "; swapon --show=Size --noheadings >> $HOST_INFO
+echo -n "Number of 1Gb Pages: "; grep HugePages_1048576kB /proc/meminfo >> $HOST_INFO
+echo -n "OS Info: "; uname -a  >> $HOST_INFO
+echo -n "Processor Model: "; cat /proc/cpuinfo  | grep 'name'| uniq >> $HOST_INFO
+echo -n "Num Processor: "; cat /proc/cpuinfo  | grep process| wc -l >> $HOST_INFO
+echo -n "Nodeos Version: "; nodeos --full-version  >> $HOST_INFO
 
 # accumulate statistics
 echo ">> ${TITLE}" > $STAT_FILE
