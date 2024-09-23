@@ -4,6 +4,8 @@
 apt-get update >> /dev/null
 apt-get install -y git unzip jq curl nginx python3 python3-pip sysstat
 
+## aws cli ##
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/tmp/awscliv2.zip"
 unzip /tmp/awscliv2.zip -d /tmp/ >> /dev/null
 /tmp/aws/install
 
