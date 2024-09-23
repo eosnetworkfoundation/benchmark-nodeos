@@ -1,7 +1,8 @@
 #!/bin/bash
 
-TITLE=${1:-$$ New Monitor}
-GIT_CONFIG=${2:-NA}
+GIT_CONFIG=${1:-NA}
+TITLE=${2:-$$ New Monitor}
+
 RUNID=$(date -u +%j)$$
 DIR="/tmp/runs"
 STAT_FILE=${DIR}/stats-${RUNID}.txt
