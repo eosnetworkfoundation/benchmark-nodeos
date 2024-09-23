@@ -12,6 +12,11 @@ cd /home/enf-replay || exit
 MONITOR_PID=$!
 
 [ -f /data/nodeos.log ] && :> /data/nodeos.log
+# remove state files
+for f in /data/state/chain_head.dat /data/state/shared_memory.bin /data/state/code_cache.bin
+do
+  [ -f ${f} ] && rm ${f}
+done
 nodeos --config $CONFIG \
 --data-dir /data \
 --genesis-json /home/enf-replay/benchmark-nodeos/config/genesis.json \
