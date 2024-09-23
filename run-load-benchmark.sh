@@ -5,7 +5,7 @@ MONITOR_PID=$$
 
 nodeos --config /home/enf-user/config/heap-mode.ini \
 --data-dir /data \
---genesis /home/enf-user/config/genesis.json \
+--genesis-json /home/enf-user/config/genesis.json \
 --terminate-at-block 10000
 
 sleep 10
