@@ -22,14 +22,12 @@ echo -n "Processor Model: ">> $HOST_INFO; cat /proc/cpuinfo  | grep 'name'| uniq
 echo -n "Num Processor: ">> $HOST_INFO; cat /proc/cpuinfo  | grep process| wc -l >> $HOST_INFO
 echo -n "Nodeos Version: ">> $HOST_INFO; nodeos --full-version  >> $HOST_INFO
 
-# wait for nodeos interface to come up
-sleep 10
-
 # accumulate statistics
+# nodoes endpoint not avalible when loading/writing state
+# nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | cut -d',' -f3,4) 2> /dev/null
+# db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
 echo ">> ${TITLE}" > $STAT_FILE
 while true; do
-  nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | cut -d',' -f3,4) 2> /dev/null
-  db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
   vm_stat=$(vmstat 1 1 | tail -1)
   echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') ${nodeos_info} ${db_size_info} ${vm_stat}" | tee -a $STAT_FILE
   sleep 30
