@@ -46,3 +46,7 @@ dd if=/dev/zero of="${SWAPFILE}" bs=1024 count=134217728
 chmod 600 "$SWAPFILE"
 mkswap "$SWAPFILE"
 swapon "$SWAPFILE"
+
+## install nodeos
+curl -L --output antelope-spring_1.0.1_amd64.deb https://github.com/AntelopeIO/spring/releases/download/v1.0.1/antelope-spring_1.0.1_amd64.deb
+dpkg -i antelope-spring_1.0.1_amd64.deb

@@ -22,6 +22,9 @@ echo -n "Processor Model: "; cat /proc/cpuinfo  | grep 'name'| uniq >> $HOST_INF
 echo -n "Num Processor: "; cat /proc/cpuinfo  | grep process| wc -l >> $HOST_INFO
 echo -n "Nodeos Version: "; nodeos --full-version  >> $HOST_INFO
 
+# wait for nodeos interface to come up
+sleep 10
+
 # accumulate statistics
 echo ">> ${TITLE}" > $STAT_FILE
 while true; do
