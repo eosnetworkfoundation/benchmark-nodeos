@@ -21,6 +21,7 @@ echo -n "OS Info: ">> $HOST_INFO; uname -a  >> $HOST_INFO
 echo -n "Processor Model: ">> $HOST_INFO; cat /proc/cpuinfo  | grep 'name'| uniq >> $HOST_INFO
 echo -n "Num Processor: ">> $HOST_INFO; cat /proc/cpuinfo  | grep process| wc -l >> $HOST_INFO
 echo -n "Nodeos Version: ">> $HOST_INFO; nodeos --full-version  >> $HOST_INFO
+echo "Config File: ${GIT_CONFIG}">> $HOST_INFO
 
 # accumulate statistics
 # nodoes endpoint not avalible when loading/writing state
