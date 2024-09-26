@@ -33,5 +33,10 @@ echo ">> ${TITLE}" > $STAT_FILE
 while true; do
   vm_stat=$(vmstat 1 1 | tail -1)
   echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') ${vm_stat}" | tee -a $STAT_FILE
+  # reach max block, don't need to include termination
+  IF_END=$(grep "reached configured maximum block" /data/nodeos.log | wc -l)
+  if [ "$IF_END" -gt 0 ]; then
+    break
+  fi 
   sleep 30
 done

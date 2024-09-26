@@ -20,6 +20,6 @@ done
 nodeos --config $CONFIG \
 --data-dir /data \
 --genesis-json /home/enf-replay/benchmark-nodeos/config/genesis.json \
---terminate-at-block 10000 > /data/nodeos.log
+--terminate-at-block 10000 2>&1 > /data/nodeos.log
 
 kill $MONITOR_PID
