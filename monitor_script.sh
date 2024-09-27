@@ -30,13 +30,14 @@ echo "Config File: ${GIT_CONFIG}">> $HOST_INFO
 # nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | cut -d',' -f3,4) 2> /dev/null
 # db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
 echo ">> ${TITLE}" > $STAT_FILE
+stage="catch-up"
 while true; do
   vm_stat=$(vmstat 1 1 | tail -1)
-  echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') ${vm_stat}" | tee -a $STAT_FILE
+  echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') ${stage} ${vm_stat}" | tee -a $STAT_FILE
   # reach max block, don't need to include termination
   IF_END=$(grep "reached configured maximum block" /data/nodeos.log | wc -l)
   if [ "$IF_END" -gt 0 ]; then
-    break
-  fi 
+    stage="terminating"
+  fi
   sleep 30
 done

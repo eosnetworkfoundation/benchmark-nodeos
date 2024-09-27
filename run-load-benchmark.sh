@@ -17,9 +17,8 @@ for f in /data/state/chain_head.dat /data/state/shared_memory.bin /data/state/co
 do
   [ -f ${f} ] && rm ${f}
 done
-nodeos --config $CONFIG \
---data-dir /data \
+nodeos --config $CONFIG --data-dir /data \
 --genesis-json /home/enf-replay/benchmark-nodeos/config/genesis.json \
---terminate-at-block 10000 2>&1 > /data/nodeos.log
+--terminate-at-block 100000 > /data/nodeos.log 2>&1
 
 kill $MONITOR_PID
