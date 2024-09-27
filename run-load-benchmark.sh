@@ -3,7 +3,7 @@
 # optional title set in host file and stat file
 TITLE=${1}
 # The nodeos config we will use
-CONFIG=/home/enf-replay/benchmark-nodeos/config/heap-mode.ini
+CONFIG=${2:-/home/enf-replay/benchmark-nodeos/config/heap-mode.ini}
 cd /home/enf-replay/benchmark-nodeos || exit
 # get the commit hash if we want to see exact version later
 COMMIT_HASH=$(git rev-parse HEAD)
