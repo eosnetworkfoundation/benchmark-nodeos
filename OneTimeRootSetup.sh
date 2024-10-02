@@ -48,5 +48,29 @@ mkswap "$SWAPFILE"
 swapon "$SWAPFILE"
 
 ## install nodeos
-curl -L --output antelope-spring_1.0.1_amd64.deb https://github.com/AntelopeIO/spring/releases/download/v1.0.1/antelope-spring_1.0.1_amd64.deb
-dpkg -i antelope-spring_1.0.1_amd64.deb
+curl -L --output /tmp/antelope-spring_1.0.1_amd64.deb https://github.com/AntelopeIO/spring/releases/download/v1.0.1/antelope-spring_1.0.1_amd64.deb
+dpkg -i /tmp/antelope-spring_1.0.1_amd64.deb
+## install CDT
+apt-get install libcurl4-gnutls-dev
+curl -L --output /tmp/cdt_4.1.0-1_amd64.deb https://github.com/AntelopeIO/cdt/releases/download/v4.1.0/cdt_4.1.0-1_amd64.deb
+dpkg -i /tmp/cdt_4.1.0-1_amd64.deb
+
+# build system contracts
+cd /home/${USER}
+sudo -u ${USER} git clone --depth 1 --branch v3.6.0 https://github.com/eosnetworkfoundation/eos-system-contracts.git
+
+cd eos-system-contracts
+sudo -u ${USER} mkdir build
+cd build
+apt-get install cmake
+sudo -u ${USER} cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+sudo -u ${USER} make -j $(nproc)
+
+# install ABI for trace files
+mkdir -p /opt/chainuser/eos-system-contracts/contracts
+chmod 777 /opt/chainuser/eos-system-contracts/contracts
+for contract in eosio.bios eosio.boot eosio.msig eosio.system eosio.token eosio.wrap
+do
+  sudo -u ${USER} mkdir /opt/chainuser/eos-system-contracts/contracts/${contract}
+  sudo -u ${USER} cp contracts/${contract}/${contract}.abi /opt/chainuser/eos-system-contracts/contracts/${contract}
+done
