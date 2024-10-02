@@ -1,0 +1,13 @@
+>> 100K-Heap-With-State-gp2
+MISC:
+gp2 256GiB SSD IOPs 768
+MISC:
+Date: 2024-09-28T04:02:55Z
+Total Ram: 124
+Total Swap: 128G
+Number of 1Gb Pages: 0
+OS Info: Linux ip-172-31-74-61 5.19.0-1025-aws #26~22.04.1-Ubuntu SMP Mon Apr 24 01:58:15 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
+Processor Model: model name	: Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
+Num Processor: 16
+Nodeos Version: v1.0.1-574650744460373f635d48cac9aa6dee67dcbfdb
+Config File: heap-mode-state.ini-31a61d6fabc615b9945b59837e57f0afb3e15923
