@@ -62,12 +62,12 @@ while true; do
     db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
   fi
   # chainbase read
-  IF_CHAINBASE_LOAD=$(tail -100 /data/nodeos.log | grep 'CHAINBASE: Writing "state" database' | wc -l)
+  IF_CHAINBASE_LOAD=$(tail -100 /data/nodeos.log | grep 'CHAINBASE: Preloading "state" database' | wc -l)
   if [ "$IF_CHAINBASE_LOAD" -gt 0 ]; then
     stage="chainbase-load"
   fi
-  # chainbase write 
-  IF_CHAINBASE_PERSIST=$(tail -100 /data/nodeos.log | grep 'CHAINBASE: Preloading "state" database' | wc -l)
+  # chainbase write
+  IF_CHAINBASE_PERSIST=$(tail -100 /data/nodeos.log | grep 'CHAINBASE: Writing "state" database' | wc -l)
   if [ "$IF_CHAINBASE_PERSIST" -gt 0 ]; then
     stage="chainbase-persist"
   fi
