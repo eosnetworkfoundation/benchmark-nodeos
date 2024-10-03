@@ -31,9 +31,14 @@ echo "Config File: ${GIT_CONFIG}">> $HOST_INFO
 # db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
 echo ">> ${TITLE}" > $STAT_FILE
 stage="initialize"
+nodeos_info="NA"
+db_size_info="NA"
 while true; do
   vm_stat=$(vmstat 1 1 | tail -1)
-  echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') ${stage} ${vm_stat}" | tee -a $STAT_FILE
+  echo "$(date -u +'%Y-%m-%dT%H:%M:%SZ') ${stage} ${vm_stat} ${nodeos_info} ${db_size_info}" | tee -a $STAT_FILE
+  # reset
+  nodeos_info="NA"
+  db_size_info="NA"
   # reach max block, don't need to include termination
   IF_END=$(tail -500 /data/nodeos.log | grep "reached configured maximum block" | wc -l)
   if [ "$IF_END" -gt 0 ]; then
@@ -44,22 +49,27 @@ while true; do
   if [ "$IF_SNAP" -gt 0 ]; then
     stage="loading-snap"
   fi
-  # catch up
-  IF_CATCHUP=$(tail -100 /data/nodeos.log | grep -e "replay_block_log" -e "Sending handshake generation" | wc -l)
-  if [ "$IF_CATCHUP" -gt 0 ]; then
-    stage="catchup"
+  # catch up via blocks log
+  IF_REPLAY=$(tail -100 /data/nodeos.log | grep "replay_block_log" | wc -l)
+  if [ "$IF_REPLAY" -gt 0 ]; then
+    stage="replay"
   fi
-  # chainbase write
+  # catch up via peer sync
+  IF_SYNC=$(tail -100 /data/nodeos.log | grep "Sending handshake generation" | wc -l)
+  if [ "$IF_SYNC" -gt 0 ]; then
+    stage="net-sync"
+    nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | cut -d',' -f3,4) 2> /dev/null
+    db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
+  fi
+  # chainbase read
   IF_CHAINBASE_LOAD=$(tail -100 /data/nodeos.log | grep 'CHAINBASE: Writing "state" database' | wc -l)
-  if [ "$IF_CATCHUP" -gt 0 ]; then
+  if [ "$IF_CHAINBASE_LOAD" -gt 0 ]; then
     stage="chainbase-load"
   fi
+  # chainbase write 
   IF_CHAINBASE_PERSIST=$(tail -100 /data/nodeos.log | grep 'CHAINBASE: Preloading "state" database' | wc -l)
-  if [ "$IF_CATCHUP" -gt 0 ]; then
+  if [ "$IF_CHAINBASE_PERSIST" -gt 0 ]; then
     stage="chainbase-persist"
   fi
-
-
-
   sleep 30
 done
