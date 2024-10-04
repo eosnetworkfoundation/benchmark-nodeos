@@ -210,11 +210,11 @@ class Stats():
         headerSys = "Interrupts,ContextSwitch,"
         headerCPU = "CPU_User_Percent,CPU_Sys_Percent,CPU_Idle_Percent,CPU_WaitIO_Percent,CPU_Stolen_Percent,"
         nodeos_info = "Head_Block,DB_Rows"
-        return headerInitial+headerProcs+headerMemory+headerSwap+headerIO+headerSys+headerCPU
+        return headerInitial+headerProcs+headerMemory+headerSwap+headerIO+headerSys+headerCPU+nodeos_info
 
     def csv(self):
         return (f"{self.date},{self.time},{self.elasped_secs},{self.stage},"
-                f"{self.r},{self.b}"
+                f"{self.r},{self.b},"
                 f"{self.swpd},{self.free},{self.buff},{self.cache},"
                 f"{self.si},{self.so},"
                 f"{self.bi},{self.bo},"
