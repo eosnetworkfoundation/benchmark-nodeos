@@ -4,6 +4,7 @@
 TITLE=${1}
 # The nodeos config we will use
 CONFIG=${2:-/home/enf-replay/benchmark-nodeos/config/heap-mode.ini}
+PEER=${3:-172.31.71.45:9876}
 cd /home/enf-replay/benchmark-nodeos || exit
 # get the commit hash if we want to see exact version later
 COMMIT_HASH=$(git rev-parse HEAD)
@@ -19,14 +20,19 @@ for f in /data/state/chain_head.dat /data/state/shared_memory.bin /data/state/co
 do
   [ -f ${f} ] && rm ${f}
 done
+# start at 1,033,687 end 1,000,000 blocks later
+# no block log
+SNAP="/data/snapshots/xsat-snapshot-2024-09-14-01-eos-v8-1033687.bin"
 nodeos --config $CONFIG --data-dir /data \
---genesis-json /home/enf-replay/benchmark-nodeos/config/genesis.json \
---terminate-at-block 100000 > /data/nodeos.log 2>&1
+--snapshot $SNAP \
+--p2p-peer-address ${PEER} \
+--block-log-retain-blocks 0 \
+--terminate-at-block 2033687 > /data/nodeos.log 2>&1
 
 kill $MONITOR_PID
 
 [ -f /home/enf-replay/runs.tar ] && mv /home/enf-replay/runs.tar /home/enf-replay/prev-runs.tar
 tar cf /home/enf-replay/runs.tar /tmp/runs/
-if [ $? -eq 0 ]; then 
+if [ $? -eq 0 ]; then
   rm /home/enf-replay/prev-runs.tar
 fi
