@@ -1,5 +1,12 @@
 #!/bin/bash
 
+########
+# Runs an Nodeos syncing up to exSat Testnet
+# Used as a dedicated peer for sourcing blocks
+# nodoes on another host can pull from this host over the network and sync blocks
+# Therefore this host will always run as a dedicated source
+#######
+
 # The nodeos config we will use
 CONFIG=${1:-/home/enf-replay/benchmark-nodeos/config/xsat-sync.ini}
 FROM_SNAP=${2:-YES}
@@ -36,10 +43,8 @@ kill $MONITOR_PID
 if [ $FROM_SNAP == "YES" ]; then
   echo "Starting from snapshot"
   nohup nodeos --config $CONFIG --data-dir /data \
-    --config $CONFIG \
     --snapshot $SNAP > /data/nodeos.log 2>&1 &
 else
   echo "Starting from existing state"
-  nohup nodeos --config $CONFIG --data-dir /data \
-    --config $CONFIG > /data/nodeos.log 2>&1 &
+  nohup nodeos --config $CONFIG --data-dir /data > /data/nodeos.log 2>&1 &
 fi

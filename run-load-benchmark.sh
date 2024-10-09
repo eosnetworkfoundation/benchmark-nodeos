@@ -1,5 +1,11 @@
 #!/bin/bash
 
+########
+# Runs an Nodeos syncing up to exSat Testnet
+# Used to run benchmakring node and collecting stats
+# Starts from Block Num 1033687 as fat blocks start around 1300000
+#######
+
 # optional title set in host file and stat file
 TITLE=${1}
 # The nodeos config we will use
