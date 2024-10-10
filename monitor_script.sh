@@ -27,8 +27,6 @@ echo "Config File: ${GIT_CONFIG}">> $HOST_INFO
 
 # accumulate statistics
 # nodoes endpoint not avalible when loading/writing state
-# nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | cut -d',' -f3,4) 2> /dev/null
-# db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
 echo ">> ${TITLE}" > $STAT_FILE
 stage="initialize"
 nodeos_info="NA"
@@ -58,8 +56,8 @@ while true; do
   IF_SYNC=$(tail -50 /data/nodeos.log | grep "Sending handshake generation" | wc -l)
   if [ "$IF_SYNC" -gt 0 ]; then
     stage="net-sync"
-    nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | cut -d',' -f3,4) 2> /dev/null
-    db_size_info=$(curl http://127.0.0.1:8888/v1/db_size/get | xargs | cut -d',' -f1-4) 2> /dev/null
+    nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | jq -r .head_block_num) 2> /dev/null
+    db_size_info=$(curl -X POST http://127.0.0.1:8888/v1/db_size/get | jq -r .used_bytes) 2> /dev/null
   fi
   # reach max block, don't need to include termination
   IF_END=$(tail -50 /data/nodeos.log | grep "reached configured maximum block" | wc -l)
