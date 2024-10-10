@@ -53,7 +53,7 @@ while true; do
     stage="replay"
   fi
   # catch up via peer sync
-  IF_SYNC=$(tail -50 /data/nodeos.log | grep "Sending handshake generation" | wc -l)
+  IF_SYNC=$(tail -50 /data/nodeos.log | grep -E "Received block [0-9a-f]+" | wc -l)
   if [ "$IF_SYNC" -gt 0 ]; then
     stage="net-sync"
     nodeos_info=$(curl http://127.0.0.1:8888/v1/chain/get_info | jq -r .head_block_num) 2> /dev/null
