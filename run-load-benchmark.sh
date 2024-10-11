@@ -15,17 +15,21 @@ cd /home/enf-replay/benchmark-nodeos || exit
 # get the commit hash if we want to see exact version later
 COMMIT_HASH=$(git rev-parse HEAD)
 cd /home/enf-replay || exit
-./benchmark-nodeos/monitor_script.sh $(basename $CONFIG)-${COMMIT_HASH} $TITLE &
-MONITOR_PID=$!
 
+# clean up first
 [ -f /data/nodeos.log ] && :> /data/nodeos.log
 # remove state files
 for f in /data/state/chain_head.dat /data/state/shared_memory.bin /data/state/code_cache.bin \
  /data/state-history/chain_state_history.log /data/state-history/chain_state_history.index \
- /data/state-history/trace_history.log /data/state-history/trace_history.index
+ /data/state-history/trace_history.log /data/state-history/trace_history.index \
+ /data/blocks/reversible/fork_db.dat
 do
   [ -f ${f} ] && rm ${f}
 done
+
+./benchmark-nodeos/monitor_script.sh $(basename $CONFIG)-${COMMIT_HASH} $TITLE &
+MONITOR_PID=$!
+
 # start at 1,033,687 end 1,000,000 blocks later
 # no block log
 SNAP="/data/snapshots/xsat-snapshot-2024-09-14-01-eos-v8-1033687.bin"
