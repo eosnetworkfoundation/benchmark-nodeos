@@ -32,7 +32,6 @@ SNAP="/data/snapshots/xsat-snapshot-2024-09-14-01-eos-v8-1033687.bin"
 nodeos --config $CONFIG --data-dir /data \
 --snapshot $SNAP \
 --p2p-peer-address ${PEER} \
---block-log-retain-blocks 0 \
 --terminate-at-block 2033687 > /data/nodeos.log 2>&1
 
 kill $MONITOR_PID
