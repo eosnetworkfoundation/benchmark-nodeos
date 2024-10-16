@@ -48,20 +48,20 @@ mkswap "$SWAPFILE"
 swapon "$SWAPFILE"
 
 ## install nodeos
-curl -L --output /tmp/antelope-spring_1.0.1_amd64.deb https://github.com/AntelopeIO/spring/releases/download/v1.0.1/antelope-spring_1.0.1_amd64.deb
-dpkg -i /tmp/antelope-spring_1.0.1_amd64.deb
+curl -L --output /tmp/antelope-spring_1.0.2_amd64.deb https://github.com/AntelopeIO/spring/releases/download/v1.0.2/antelope-spring_1.0.2_amd64.deb
+dpkg -i /tmp/antelope-spring_1.0.2_amd64.deb
 ## install CDT
 apt-get install libcurl4-gnutls-dev
 curl -L --output /tmp/cdt_4.1.0-1_amd64.deb https://github.com/AntelopeIO/cdt/releases/download/v4.1.0/cdt_4.1.0-1_amd64.deb
 dpkg -i /tmp/cdt_4.1.0-1_amd64.deb
 
 # build system contracts
-cd /home/${USER}
+cd /home/${USER} || exit
 sudo -u ${USER} git clone --depth 1 --branch v3.6.0 https://github.com/eosnetworkfoundation/eos-system-contracts.git
 
-cd eos-system-contracts
+cd eos-system-contracts || exit
 sudo -u ${USER} mkdir build
-cd build
+cd build || exit
 apt-get install cmake
 sudo -u ${USER} cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
 sudo -u ${USER} make -j $(nproc)
