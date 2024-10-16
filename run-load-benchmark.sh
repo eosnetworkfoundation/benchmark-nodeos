@@ -32,11 +32,10 @@ MONITOR_PID=$!
 
 # start at 1,033,687 end 1,000,000 blocks later
 # no block log
-SNAP="/data/snapshots/xsat-snapshot-2024-09-14-01-eos-v8-1033687.bin"
 nodeos --config $CONFIG --data-dir /data \
---snapshot $SNAP \
+--genesis-json /home/enf-replay/benchmark-nodeos/config/genesis.json \
 --p2p-peer-address ${PEER} \
---terminate-at-block 2033687 > /data/nodeos.log 2>&1
+--terminate-at-block 700000 > /data/nodeos.log 2>&1
 
 kill $MONITOR_PID
 
