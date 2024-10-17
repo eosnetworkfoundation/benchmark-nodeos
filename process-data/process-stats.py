@@ -140,7 +140,7 @@ class Host():
 
 class Stats():
     time_format = "%Y-%m-%dT%H:%M:%SZ"
-    def __init__(self, start_date, date, stage, r, b, swpd, free, buff, cache, si, so, bi, bo, in_, cs, us, sy, id_, wa, st, head_block_num, db_rows):
+    def __init__(self, start_date, date, stage, r, b, swpd, free, buff, cache, si, so, bi, bo, in_, cs, us, sy, id_, wa, st, head_block_num, db_size):
 
         if "T" in date:
             [self.date,self.time]  = date.split("T")   # Date/Time when the stats were collected
@@ -188,7 +188,7 @@ class Stats():
 
         # Nodeos Info
         self.head_block_num = head_block_num    # head block for chain
-        self.db_rows = db_rows                  # db rows in chainbase
+        self.db_size = db_size                  # db rows in chainbase
 
     def __str__(self):
         return (f"Date: {self.date}, Time: {self.time}, Elasped_Sec: {self.elasped_secs}, Stage: {self.stage}\n"
@@ -198,7 +198,7 @@ class Stats():
                 f"IO - bi: {self.bi}, bo: {self.bo}\n"
                 f"System - in: {self.in_}, cs: {self.cs}\n"
                 f"CPU - us: {self.us}, sy: {self.sy}, id: {self.id_}, wa: {self.wa}, st: {self.st}\n"
-                f"Nodeos - block: {self.head_block_num}, dbrows: {self.db_rows}\n")
+                f"Nodeos - block: {self.head_block_num}, dbrows: {self.db_size}\n")
 
     @staticmethod
     def csv_header():
@@ -209,7 +209,7 @@ class Stats():
         headerIO = "BlocksIn(blocks/sec),BlocksOut(blocks/sec),"
         headerSys = "Interrupts,ContextSwitch,"
         headerCPU = "CPU_User_Percent,CPU_Sys_Percent,CPU_Idle_Percent,CPU_WaitIO_Percent,CPU_Stolen_Percent,"
-        nodeos_info = "Head_Block,DB_Rows"
+        nodeos_info = "Head_Block,DB_Size"
         return headerInitial+headerProcs+headerMemory+headerSwap+headerIO+headerSys+headerCPU+nodeos_info
 
     def csv(self):
@@ -220,7 +220,7 @@ class Stats():
                 f"{self.bi},{self.bo},"
                 f"{self.in_},{self.cs},"
                 f"{self.us},{self.sy},{self.id_},{self.wa},{self.st},"
-                f"{self.head_block_num},{self.db_rows}")
+                f"{self.head_block_num},{self.db_size}")
 
     def json(self, indent=0):
         indent=indent*4 # 4 spaces for each indent
@@ -252,7 +252,7 @@ class Stats():
         f'    {padding}cpu_waitio_percent:{self.wa},\n'
         f'    {padding}cpu_stolen_percent:{self.st}\n'
         f'    {padding}head_block_num:{self.head_block_num},\n'
-        f'    {padding}db_rows:{self.db_rows}\n'
+        f'    {padding}db_size:{self.db_size}\n'
         f'{padding}}}{trailing_comma}\n'
         )
 

@@ -1,13 +1,12 @@
->> 100K-Heap-With-State-gp2
+>> mapped-mode-no-blocks-gp2
 MISC:
-gp2 256GiB SSD IOPs 768
+gp2 1024 GiB 3072 iops
 MISC:
-Date: 2024-09-28T04:02:55Z
+Date: 2024-10-16T22:34:37Z
 Total Ram: 124
-Total Swap: 128G
-Number of 1Gb Pages: 0
-OS Info: Linux ip-172-31-74-61 5.19.0-1025-aws #26~22.04.1-Ubuntu SMP Mon Apr 24 01:58:15 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
-Processor Model: model name	: Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
+Total Swap: Number of 1Gb Pages: 0
+OS Info: Linux ip-172-31-74-196 5.19.0-1025-aws #26~22.04.1-Ubuntu SMP Mon Apr 24 01:58:15 UTC 2023 x86_64 x86_64 x86_64 GNU/Linux
+Processor Model: model name     : Intel(R) Xeon(R) Platinum 8259CL CPU @ 2.50GHz
 Num Processor: 16
-Nodeos Version: v1.0.1-574650744460373f635d48cac9aa6dee67dcbfdb
-Config File: heap-mode-state.ini-31a61d6fabc615b9945b59837e57f0afb3e15923
+Nodeos Version: v1.0.2-52215f90c7ff94674c4eec967efad3568f9435e2
+Config File: mapped-mode-no-blocks.ini-0dd5785db30006da9006adc48e9356d328765cde

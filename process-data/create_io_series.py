@@ -35,7 +35,7 @@ def parse_txt_files(file_name):
             # 19 CPU_WaitIO_Percent
             # 20 CPU_Stolen_Percent
             # 21 Head_Block
-            # 22 DB_Rows
+            # 22 DB_Size
             # 23 Title
             # 24 Misc
             # 25 Total_RAM
@@ -60,10 +60,12 @@ def parse_txt_files(file_name):
                 "swapout": parts[11],
                 "blocksin": parts[12],
                 "blocksout": parts[13],
-                "title": parts[23]
+                "title": parts[23],
+                "db_size": parts[22],
+                "head_block": parts[21]
             }
 
-            for type in ["swapped", "free", "buffer", "cache", "swapin", "swapout", "blocksin", "blocksout"]:
+            for type in ["swapped", "free", "buffer", "cache", "swapin", "swapout", "blocksin", "blocksout", "db_size", "head_block"]:
                 # initialize
                 if type not in data:
                     data[type] = {}
@@ -89,7 +91,7 @@ def write_files(data, output_directory):
     # Check if output directory exists, if not, create it
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
-    for type in ["swapped", "free", "buffer", "cache", "swapin", "swapout", "blocksin", "blocksout"]:
+    for type in ["swapped", "free", "buffer", "cache", "swapin", "swapout", "blocksin", "blocksout", "db_size", "head_block"]:
         file_name = f"{output_directory}/{type}.csv"
         columns = data[type]['col'].keys()
         with open(file_name, "w") as file:
@@ -117,7 +119,7 @@ def write_files(data, output_directory):
                 file.write(f"{line}\n")
 
 def main():
-    parser = argparse.ArgumentParser(description="Parse csv file and create series for free, swap-in, swap-out, blocks-in, blocks-out")
+    parser = argparse.ArgumentParser(description="Parse csv file and create series for free, swap-in, swap-out, blocks-in, blocks-out, db_size, head_block")
     parser.add_argument('--file', type=str, help='Path to the csv file ')
     parser.add_argument('--output-directory', type=str, help='Path to the output directory')
 
