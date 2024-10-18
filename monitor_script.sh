@@ -17,8 +17,9 @@ echo "MISC:"  >> $HOST_INFO
 echo -n "Date: ">> $HOST_INFO; date -u +"%Y-%m-%dT%H:%M:%SZ" >> $HOST_INFO
 echo -n "Total Ram: ">> $HOST_INFO; free -g | grep Mem: | xargs | cut -d" " -f2 >> $HOST_INFO
 echo -n "Total Swap: ">> $HOST_INFO; swapon --show=Size --noheadings >> $HOST_INFO
-echo -n "Number of 1Gb Pages: ">> $HOST_INFO;
-grep HugePages_1048576kB /proc/meminfo || echo "0" >> $HOST_INFO
+ALLOC_HUGE_PAGE=$(grep Hugetlb /proc/meminfo  | sed -e 's/Hugetlb:\s*\([0-9]*\)\s*kB/\1/')
+let ALLOC_HUGE_PAGE=ALLOC_HUGE_PAGE/1024/1024
+echo -n "Number of 1Gb Pages: ${ALLOC_HUGE_PAGE}">> $HOST_INFO;
 echo -n "OS Info: ">> $HOST_INFO; uname -a  >> $HOST_INFO
 echo -n "Processor Model: ">> $HOST_INFO; cat /proc/cpuinfo  | grep 'name'| uniq >> $HOST_INFO
 echo -n "Num Processor: ">> $HOST_INFO; cat /proc/cpuinfo  | grep process| wc -l >> $HOST_INFO

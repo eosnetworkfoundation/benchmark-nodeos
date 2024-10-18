@@ -3,4 +3,4 @@
 DIR="/tmpfsdata"
 
 sudo mkdir -p $DIR
-sudo mount -t tmpfs -o size=192G tmpfs $DIR
+sudo mount -t tmpfs -o size=100G tmpfs $DIR
